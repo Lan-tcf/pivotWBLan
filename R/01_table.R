@@ -1,29 +1,15 @@
 
 #install.packages("table1")
 library(table1)
-library(t1kable)
-install.packages("kableExtra")
+
+#install.packages("kableExtra")
+library(kableExtra)
+
 
 # armed_conflict <- read.csv("data/armed_conflict.csv", header = T)
 # usethis::use_data(armed_conflict)
 
-load("C:/Users/hoang/OneDrive/Desktop/Version Control/pivotWBLan/data/armed_conflict.rda")
-
-
-# variable type changes
-# factor variables -- for correct outputs
-armed_conflict$armed_conflict <- factor(armed_conflict$armed_conflict)
-levels(armed_conflict$armed_conflict) <- c("No","Yes")
-
-# require levels to be specified
-armed_conflict$oecd <- factor(armed_conflict$oecd)
-levels(armed_conflict$oecd) <- c("No","Yes")
-
-armed_conflict$earthquake <- factor(armed_conflict$earthquake)
-levels(armed_conflict$earthquake) <- c("No","Yes")
-
-armed_conflict$drought <- factor(armed_conflict$drought, levels = c(0,1),
-                                 labels = c("No", "Yes"))
+load("data/armed_conflict.rda")
 
 # labels
 
@@ -45,12 +31,20 @@ label(armed_conflict$neonatal_mortality) <- "Neonatal Mortality"
 label(armed_conflict$under5_mortality) <- "Under 5 Mortality"
 
 
-
+#armed_conflict <- kable(armed_conflict)
 
 # table output
-table1(~ gdp_1000 + oecd + pop_dens + urban + age_dep + male_edu + temp +
+table_01 <- table1(~ gdp_1000 + oecd + pop_dens + urban + age_dep + male_edu + temp +
          earthquake + drought + rainfall_1000 +
          maternal_mortality + infant_mortality + neonatal_mortality +
          under5_mortality| armed_conflict, data = armed_conflict,
        render.continuous = c("", "Median [Min, Max]"), overall = c(left = "Total"))
+
+
+
+# add row header?
+#add_header_above(armed_conflict, c(" " = 1, "Armed Conflict" = 3))
+
+
+# table exporting
 
